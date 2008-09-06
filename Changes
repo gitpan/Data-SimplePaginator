@@ -1,3 +1,9 @@
 Mon Feb 28 06:39:50 MST 2005
 - revised documented examples
 
+Sun Oct 23 23:43:28 PDT 2005
+- removed dependency on POSIX module
+- fixed example titles in the POD
+- added some test scripts
+- added a configure script to select Module::Build or ExtUtils::MakeMaker
+- version 0.3

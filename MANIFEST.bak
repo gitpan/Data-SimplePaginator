@@ -1,6 +1,7 @@
 Build.PL
 Changes
 configure
+Data-SimplePaginator-0.2.tar.gz
 INSTALL
 lib/Data/SimplePaginator.pm
 Makefile.PL

@@ -1,4 +1,5 @@
 Use the normal procedure:
-# perl Makefile.PL
-# make
-# make install
+
+perl Makefile.PL
+make
+make install

@@ -1,14 +1,20 @@
 package Data::SimplePaginator;
-use POSIX;
 use strict;
 use vars qw($VERSION);
-($VERSION) = '0.1';
+($VERSION) = '0.3';
+
+sub ceil {
+        my ($i) = @_;
+        my $r = sprintf("%d",$i);
+        $r += 1 if( $i > $r );
+        return $r;
+}
 
 =pod
 
 =head1 NAME
 
-Data::SimplePaginator
+Data::SimplePaginator - data pagination without assumptions (I think)
 
 =head1 SYNOPSIS
 
@@ -36,6 +42,8 @@ This module will NOT...
 
 =item Generate any HTML
 
+=item Print to stdout
+
 =back
 
 If you're using Template Toolkit you probably want to use Data::Pageset
@@ -43,6 +51,9 @@ or Data::SpreadPagination because they have lots of subs that work great
 with the way TT is set up. 
 
 =head1 METHODS
+
+
+
 
 =head2 new
 
@@ -74,6 +85,9 @@ sub new {
 	return $self;
 }
 
+
+
+
 =head2 data
 
  $paginator->data( @items );
@@ -95,6 +109,9 @@ sub data {
 	return @{$self->{data}};
 }
 
+
+
+
 =head2 size
 
  $paginator->size(15);
@@ -115,6 +132,9 @@ sub size {
 	return $self->{size};
 }
 
+
+
+
 =head2 pages
 
  $number_of_pages = $paginator->pages;
@@ -127,8 +147,9 @@ number of items per page that you set.
 sub pages {
 	my ($self) = @_;
 	my @all = $self->data;
-	return POSIX::ceil(scalar(@all) / $self->size);
+	return ceil(scalar(@all) / $self->size);
 }
+
 
 =head2 page
 
@@ -154,37 +175,40 @@ sub page {
 	return @data;
 }
 
+
+
+
 =head1 EXAMPLES
 
 use Data::SimplePaginator;
 
-=head2 # paginate the alphabet into groups of 10 letters each
+=head2 paginate the alphabet into groups of 10 letters each
 
  my $paginator = Data::SimplePaginator->new(10,A..Z);
 
-=head2 # print just the first page, A .. J
+=head2 print just the first page, A .. J
 
  print "first page: ". join(" ", $paginator->page(1)) . "\n";
 
-=head2 # print every page
+=head2 print every page
 
  foreach my $page ( 1..$paginator->pages ) {
    print "page $page: ". join(" ", $paginator->page($page)) . "\n";
  }
 
-=head2 # print just the last page, U .. Z
+=head2 print just the last page, U .. Z
 
  print "last page: ". join(" ", $paginator->page($paginator->pages)) . "\n";
 
-=head2 # add more elements to the paginator
+=head2 add more elements to the paginator
 
  $paginator->data( $paginator->data, 1..4, map { lc } A..Z, 5..8 );
  
-=head2 # create a pageset paginator to group pages in sets of 3
+=head2 create a pageset paginator to group pages in sets of 3
 
  my $pageset = Data::SimplePaginator->new(3, 1..$paginator->pages);
  
-=head2 # print every page, grouping into pagesets
+=head2 print every page, grouping into pagesets
 
  foreach my $setnum ( 1..$pageset->pages ) {
    print "pageset $setnum\n";
@@ -193,7 +217,7 @@ use Data::SimplePaginator;
    }
  }
 
-=head2 # print every page, grouping into pagesets, resetting page numbers
+=head2 print every page, grouping into pagesets, resetting page numbers
 
  foreach my $setnum ( 1..$pageset->pages ) {
    print "pageset $setnum\n";
@@ -223,7 +247,7 @@ Jonathan Buhacoff <jonathan@buhacoff.net>
 
 =head1 COPYRIGHT
 
-Copyright (C) 2004 Jonathan Buhacoff.  All rights reserved.
+Copyright (C) 2004-2005 Jonathan Buhacoff.  All rights reserved.
 
 This library is free software and can be modified and distributed under the same
 terms as Perl itself. 
