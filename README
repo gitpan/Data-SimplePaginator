@@ -3,4 +3,4 @@ and accessing them in a simple way.  I created it after trying other
 pagination modules on CPAN and not feeling comfortable with the defaults,
 or the interface, or the implementation. 
 
-Data::SimplePaginator (version 0.2) is short and to the point.
+Data::SimplePaginator is short and to the point.

@@ -7,3 +7,8 @@ Sun Oct 23 23:43:28 PDT 2005
 - added some test scripts
 - added a configure script to select Module::Build or ExtUtils::MakeMaker
 - version 0.3
+
+Fri Sep  5 18:15:01 PDT 2008
+- updated INSTALL and README files
+- minor fix to distribution .tar.gz
+- version 0.3.1

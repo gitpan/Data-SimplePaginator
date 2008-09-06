@@ -1,7 +1,7 @@
 package Data::SimplePaginator;
 use strict;
 use vars qw($VERSION);
-($VERSION) = '0.3';
+($VERSION) = '0.3.1';
 
 sub ceil {
         my ($i) = @_;
@@ -247,7 +247,7 @@ Jonathan Buhacoff <jonathan@buhacoff.net>
 
 =head1 COPYRIGHT
 
-Copyright (C) 2004-2005 Jonathan Buhacoff.  All rights reserved.
+Copyright (C) 2004-2008 Jonathan Buhacoff.  All rights reserved.
 
 This library is free software and can be modified and distributed under the same
 terms as Perl itself. 
