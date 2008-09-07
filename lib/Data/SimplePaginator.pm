@@ -1,7 +1,7 @@
 package Data::SimplePaginator;
 use strict;
 use vars qw($VERSION);
-($VERSION) = '0.3.1';
+($VERSION) = '0.4.0';
 
 sub ceil {
         my ($i) = @_;
