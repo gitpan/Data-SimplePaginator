@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 use Test::More;
 eval "use POSIX";
-plan skip_all => "POSIX required for testing ceil()" if $@;
+plan skip_all => "POSIX required for testing _ceil()" if $@;
 
 # count number of tests
 $m = 20;
@@ -19,7 +19,7 @@ use Data::SimplePaginator;
 foreach my $a (-$m..$m) {
 	foreach my $b (-$m..$m) {
 		next if $b == 0;
-		my $j = Data::SimplePaginator::ceil($a/$b);
+		my $j = Data::SimplePaginator::_ceil($a/$b);
 		my $p = POSIX::ceil($a/$b);
 		ok( $j == $p );
 	}

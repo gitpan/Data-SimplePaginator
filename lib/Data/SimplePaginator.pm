@@ -1,9 +1,11 @@
 package Data::SimplePaginator;
 use strict;
+use warnings;
 use vars qw($VERSION);
-($VERSION) = '0.4.0';
+($VERSION) = '0.5';
 
-sub ceil {
+# Private method so we do not depend on presence of POSIX module:
+sub _ceil {
         my ($i) = @_;
         my $r = sprintf("%d",$i);
         $r += 1 if( $i > $r );
@@ -18,9 +20,16 @@ Data::SimplePaginator - data pagination without assumptions (I think)
 
 =head1 SYNOPSIS
 
+=for test begin
+
+ my $paginator;
+
+=for test end
+
  # paginate the alphabet into groups of 10 letters each
- my $paginator = Data::SimplePaginator->new(10)
+ $paginator = Data::SimplePaginator->new(10);
  $paginator->data(A..Z);
+ 
  # print the second page (K..T)
  foreach( $paginator->page(2) ) {
  	print $_;
@@ -57,10 +66,16 @@ with the way TT is set up.
 
 =head2 new
 
- $paginator = Data::SimplePaginator->new();
+=for test begin
 
+ my $number_per_page = 10;
+ 
+=for test end
+
+ $paginator = Data::SimplePaginator->new();
+ 
  $paginator = Data::SimplePaginator->new($number_per_page);
-  
+ 
  $paginator = Data::SimplePaginator->new($number_per_page, A..Z);
 
 Creates a new pagination object to split up data into sets of $number_per_page.
@@ -90,9 +105,15 @@ sub new {
 
 =head2 data
 
+=for test begin
+
+ my @items = ('orange','apple','banana','...');
+
+=for test end
+
  $paginator->data( @items );
  
- @all = $paginator->data;
+ my @all = $paginator->data;
 
 This method lets you set new data items for the paginator. It stores
 a shallow copy of the array, not a reference to it.
@@ -116,7 +137,7 @@ sub data {
 
  $paginator->size(15);
  
- $items_per_page = $paginator->size;
+ my $items_per_page = $paginator->size;
  
 This method lets you set the size of the page, a.k.a. the number of items per page. 
 
@@ -137,7 +158,7 @@ sub size {
 
 =head2 pages
 
- $number_of_pages = $paginator->pages;
+ my $number_of_pages = $paginator->pages;
  
 Returns the number of pages based on the data you provide and the
 number of items per page that you set. 
@@ -147,29 +168,30 @@ number of items per page that you set.
 sub pages {
 	my ($self) = @_;
 	my @all = $self->data;
-	return ceil(scalar(@all) / $self->size);
+	return _ceil(scalar(@all) / $self->size);
 }
 
 
 =head2 page
 
- @contents = $paginator->page($number);
+ my @contents = $paginator->page($number);
 
- @first_page = $paginator->page(1);
+ my @first_page = $paginator->page(1);
  
- @last_page = $paginator->page( $paginator->pages );
+ my @last_page = $paginator->page( $paginator->pages );
  
 The first page is page 1, the last page is number of pages. 
 
 Returns items from @list that are on the specified page. 
-If you give an invalid page number or one that's out of range for your data set
-you get an empty list.  
+If you give an invalid/undefined page number or one that's out of
+range for your data set, you get an empty list.  
 
 =cut
 
 sub page {
 	my ($self,$num) = @_;
 	my @all = $self->data;
+	return (wantarray ? () : 0) unless defined $num;
 	return (wantarray ? () : 0) if ($num < 1 || $num > $self->pages);
 	my @data = splice(@all,($num - 1)*$self->size, $self->size);
 	return @data;
@@ -184,7 +206,7 @@ use Data::SimplePaginator;
 
 =head2 paginate the alphabet into groups of 10 letters each
 
- my $paginator = Data::SimplePaginator->new(10,A..Z);
+ $paginator = Data::SimplePaginator->new(10,A..Z);
 
 =head2 print just the first page, A .. J
 
@@ -249,9 +271,10 @@ Jonathan Buhacoff <jonathan@buhacoff.net>
 
 Copyright (C) 2004-2008 Jonathan Buhacoff.  All rights reserved.
 
+=head1 LICENSE
+
 This library is free software and can be modified and distributed under the same
 terms as Perl itself. 
-
 
 =cut
 
